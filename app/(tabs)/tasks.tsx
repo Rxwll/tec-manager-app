@@ -1,10 +1,10 @@
 import React, { useState, useCallback, useRef } from "react";
+import { useFocusEffect } from "@react-navigation/native";
 import { SafeAreaView, View, Animated, Text } from "react-native";
 import { Stack } from "expo-router";
 import { useDB } from "../../database/Queries";
 import { TaskItem, TaskType } from "../../components/TaskItem";
 import headerRight from "../../components/headerRight";
-import { useFocusEffect } from "@react-navigation/native";
 
 export default function Tasks() {
   const [tasks, setTasks] = useState<TaskType[]>([]);
@@ -13,17 +13,17 @@ export default function Tasks() {
 
   const loadTasks = async () => {
     const result = await getTasks();
-    Animated.timing(fadeAnim, {
-      toValue: 1,
-      duration: 150,
-      useNativeDriver: true,
-    }).start();
     setTasks(result);
   };
 
   useFocusEffect(
     useCallback(() => {
       loadTasks();
+      Animated.timing(fadeAnim, {
+        toValue: 1,
+        duration: 150,
+        useNativeDriver: true,
+      }).start();
     }, []),
   );
 
@@ -62,6 +62,7 @@ export default function Tasks() {
                 asignature_name={item.asignature_name}
                 description={item.description}
                 date={item.date}
+                reloadTasks={loadTasks}
               />
             )}
           />

@@ -5,7 +5,7 @@ import { useColorScheme } from "nativewind";
 
 export default function RootLayout() {
   const { setColorScheme, colorScheme } = useColorScheme();
-  setColorScheme("dark");
+  setColorScheme("light");
   const isDarkMode = colorScheme === "dark";
 
   return (

@@ -56,10 +56,19 @@ export function useDB() {
       throw error;
     }
   };
+
+  const getNextClass = async (currentDay: number, currentTime: string) => {
+    const result = await db.getFirstAsync(
+      "SELECT clase.id, clase.hora_inicio, clase.hora_fin, clase.dia_id, asignatures.name AS materia, asignatures.color FROM clase JOIN asignatures ON clase.materia_id = asignatures.id WHERE (clase.dia_id > ? OR (clase.dia_id = ? AND clase.hora_inicio > ?)) ORDER BY clase.dia_id ASC, clase.hora_inicio ASC LIMIT 1;",
+      [currentDay, currentDay, currentTime],
+    );
+    return result;
+  };
+
   const getClassesByDay = async (day_id: number) => {
     try {
       const result = await db.getAllAsync(
-        "SELECT asignatures.name AS nombre, clase.hora_inicio, clase.hora_fin, asignatures.color FROM clase JOIN asignatures ON clase.materia_id = asignatures.id WHERE clase.dia_id = ?;",
+        "SELECT asignatures.name AS nombre, clase.hora_inicio, clase.hora_fin, asignatures.color FROM clase JOIN asignatures ON clase.materia_id = asignatures.id WHERE clase.dia_id = ? ORDER BY clase.hora_inicio;",
         [day_id],
       );
       return result;
@@ -102,6 +111,7 @@ export function useDB() {
     }
   };
   return {
+    getNextClass,
     addTask,
     getTasks,
     removeTask,

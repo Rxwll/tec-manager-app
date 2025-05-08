@@ -68,15 +68,14 @@ export const TaskItem: React.FC<TaskProps> = ({
       style={{ transform: [{ translateX }] }}
       className="flex flex-row justify-between p-2"
     >
-      <View className="flex-1 w-screen bg-neutral-100 dark:bg-neutral-900 rounded-lg">
-        <Text className="text-lg text-primary dark:text-secondary font-semibold p-2">
+      <View className="flex-1 w-full bg-neutral-100 dark:bg-neutral-900 rounded-lg">
+        <Text className="p-2 text-lg font-bold text-primary dark:text-secondary">
           {asignature_name}
         </Text>
         <Text className="text-sm text-black dark:text-gray-300 p-2">
           {description}
         </Text>
       </View>
-
       <View className="items-center justify-center" style={{ marginLeft: 20 }}>
         <Text className="text-xl text-primary dark:text-secondary font-bold">
           {diffDays} Dias
